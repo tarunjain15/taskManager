@@ -1,12 +1,3 @@
-var tasks = [
-	{
-		id: 1,
-		desc: "hello",
-		time: "1",
-		date: "11/12",
-		excuse: "idk"
-	}
-];
 
 totalTask = 0;
 
