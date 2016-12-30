@@ -1,4 +1,4 @@
-package controllers;
+package types;
 
 public class Task {
 
