@@ -1,4 +1,4 @@
-if(tasks) {
+if(tasks&&tasks.length!==0) {
     $('#task').tmpl(tasks).appendTo('#task_list');
 } else {
     addTaskRow();

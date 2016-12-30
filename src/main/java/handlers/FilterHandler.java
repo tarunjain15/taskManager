@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
  */
 public class FilterHandler {
     public static List<Task> filterByDate(List<Task> taskList, String date) {
-        return taskList.stream().filter(task -> !task.getDate().trim().equalsIgnoreCase(date)).collect(Collectors.toList());
+        return taskList.stream().filter((task -> ((task.getDate().trim()).equalsIgnoreCase(date)))).collect(Collectors.toList());
     }
+
 }
