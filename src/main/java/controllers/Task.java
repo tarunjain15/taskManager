@@ -2,13 +2,13 @@ package controllers;
 
 public class Task {
 
-    private final long id;
+    private final String id;
     private final String desc;
     private final String time;
     private final String date;
     private final String excuse;
 
-    public Task(long id, String desc, String time, String date, String excuse) {
+    public Task(String id, String desc, String time, String date, String excuse) {
         this.id = id;
         this.desc = desc;
         this.time = time;
@@ -16,7 +16,7 @@ public class Task {
         this.excuse = excuse;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
