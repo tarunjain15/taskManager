@@ -12,10 +12,17 @@ import java.util.List;
  */
 public class FormHandler {
     private static final String TASK_COUNT_ATTR = "taskCount";
+    private static final String DELETED_TASKS = "removedTasks";
     public static String getTaskCountAndDelete(MultiValueMap<String,String> form) {
         String taskCount = form.get(TASK_COUNT_ATTR).get(0);
         form.remove(TASK_COUNT_ATTR);
         return taskCount;
+    }
+
+    public static List<String> getDeletedTasksAndDelete(MultiValueMap<String,String> form) {
+        List<String> deletedTask = form.get(DELETED_TASKS);
+        form.remove(DELETED_TASKS);
+        return deletedTask;
     }
 
     public static List<Task> getUpdatedTaskList(MultiValueMap<String,String> form) {

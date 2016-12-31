@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import types.Task;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,8 +39,10 @@ public class InboxController {
     }
     @RequestMapping(value="/inbox", method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String submitTasks(@RequestBody MultiValueMap<String,String> form, Model model) {
+    public String submitTasks(@RequestBody MultiValueMap<String,String> form, HttpServletRequest request, Model model) {
         String taskCount = FormHandler.getTaskCountAndDelete(form);
+        List<String> deletedTask = FormHandler.getDeletedTasksAndDelete(form);
+        System.out.println("deleted task: "+deletedTask.get(0) + " "+deletedTask.get(1));
         List<Task> oldTaskList = TaskListDao.getTaskList();
         List<Task> formTaskList = FormHandler.getUpdatedTaskList(form);
 
@@ -47,8 +50,9 @@ public class InboxController {
         TaskListDao.writeTaskList(taskListJson);
 
         TaskListDao.writeTaskCount(taskCount);
+        String referer = request.getHeader("Referer");
 
-        return "redirect:/inbox.html";
+        return "redirect:" + referer;
     }
 
     private List<Task> createNewTaskList(List<Task> oldTaskList, List<Task> formTaskList) {
