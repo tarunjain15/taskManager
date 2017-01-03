@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <title>PersonalTaskManager</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/homepage">Home</a>
+                        <a class="navbar-brand" href="/inbox">Inbox</a>
+                        <a class="navbar-brand" href="/listall">All</a>
+                        <a class="navbar-brand" href="/date">Today</a>
+                        <a class="navbar-brand" href="/completed">Completed</a>
+                        <a class="navbar-brand" href="/incomplete">Incompleted</a>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <h3>Progress till now</h3>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-xs-4">
+                        <a href="/listall">
+                            <div class="bg-warning panel panel-success">
+                                <div class="panel-heading" style="font-size: 16px; text-align: center">
+                                    <strong>Completed tasks:</strong>
+                                    <div id="completed-tasks" style="font-size: 24px">
+                                        12
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-xs-4">
+                        <a href="/inbox">
+                            <div class="bg-warning panel panel-warning">
+                                <div class="panel-heading" style="font-size: 16px; text-align: center">
+                                    <strong>Unprioritized tasks:</strong>
+                                    <div id="unprioritized-tasks" style="font-size: 24px">
+                                        12
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-xs-4">
+                        <a href="/listall">
+                            <div class="bg-warning panel panel-danger">
+                                <div class="panel-heading" style="font-size: 16px; text-align: center">
+                                    <strong>Incomplete tasks:</strong>
+                                    <div id="incomplete-tasks" style="font-size: 24px">
+                                        12
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <a href="/listall">
+                    <div id="today-task" style="text-align: center">
+                        <h2>
+                            TODAY
+                        </h2>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

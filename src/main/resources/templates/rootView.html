@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
@@ -22,16 +25,16 @@
     <script id="task" type="text/x-jquery-tmpl">
           <li class="list-group-item">
             <div class="row">
-              <div class="col-sm-8 col-xs-12">
+              <div class="col-sm-6 col-xs-6">
                    <div class="glyphicon glyphicon-remove"></div>
                    <input class="form-control" name="desc_${id}" value="${desc}" style="float:right; width:calc(100% - 28px);"></input>
               </div>
-              <div class="col-sm-1 col-xs-4"><input class="form-control" name="time_${id}" value="${time}"></input></div>
-              <div class="col-sm-1 col-xs-4"><input class="form-control" name="date_${id}" value="${date}"></input></div>
-              <div class="col-sm-2 col-xs-4"><input class="form-control" name="excuse_${id}" value="${excuse}"></input></div>
+              <div class="col-sm-1 col-xs-1"><input class="form-control" name="time_${id}" value="${time}"></input></div>
+              <div class="col-sm-2 col-xs-1"><input class="form-control" name="date_${id}" type="text" value="${date}"></input></div>
+              <div class="col-sm-2 col-xs-2"><input class="form-control" type="text" name="project_${id}" value="${project}"></input></div>
+              <div class="col-sm-1 col-xs-1"><input type="checkbox" name="done_${id}" value="${done}"></input></div>
             </div>
           </li>
-
     </script>
     <title>PersonalTaskManager</title>
 </head>
@@ -44,14 +47,12 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">PersonalTaskManager</a>
+                <a class="navbar-brand" href="/homepage">Home</a>
+                <a class="navbar-brand" href="/inbox">Inbox</a>
+                <a class="navbar-brand" href="/listall">All</a>
+                <a class="navbar-brand" href="/date">Today</a>
+                <a class="navbar-brand" href="/completed">Completed</a>
+                <a class="navbar-brand" href="/incomplete">Incompleted</a>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -59,10 +60,11 @@
             <!-- Default panel contents -->
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-sm-8 col-xs-12"><strong>Description</strong></div>
-                    <div class="col-sm-1 col-xs-4"><strong>Time</strong></div>
-                    <div class="col-sm-1 col-xs-4"><strong>Date</strong></div>
-                    <div class="col-sm-2 col-xs-4"><strong>Excuse</strong></div>
+                    <div class="col-sm-6 col-xs-6"><strong>Description</strong></div>
+                    <div class="col-sm-1 col-xs-1"><strong>Time</strong></div>
+                    <div class="col-sm-2 col-xs-2"><strong>Date</strong></div>
+                    <div class="col-sm-2 col-xs-2"><strong>Project</strong></div>
+                    <div class="col-sm-1 col-xs-1"><strong>Done</strong></div>
                 </div>
             </div>
             <ul class="list-group" style="margin-bottom: 0" id="task_list">
