@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import types.Task;
 
@@ -24,17 +25,29 @@ public class InboxController {
     @GetMapping("/inbox")
     public String getInbox(Model model) {
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
-        List<Task> tasks = FilterHandler.filterByDate(TaskListDao.getTaskList(),"");
+        List<Task> allTasks = TaskListDao.getTaskList();
+        List<Task> tasks = FilterHandler.filterByDate(allTasks,"");
         tasks = FilterHandler.getIncompleted(tasks);
         model.addAttribute("taskList",tasks);
+        model.addAttribute("projectList", getProjectList(allTasks));
         return "rootView";
     }
+
+    private List<String> getProjectList(List<Task> tasks) {
+        List<String> projects = tasks.stream().map(r->r.getProject()).filter(r-> !StringUtils.isEmpty(r)).distinct().collect(Collectors.toList());
+        return projects;
+    }
+
     @GetMapping("/listall")
     public String getAllTasks(Model model) {
+        List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
-        model.addAttribute("taskList", TaskListDao.getTaskList());
+        model.addAttribute("taskList", allTasks);
+        model.addAttribute("projectList", getProjectList(allTasks));
         return "rootView";
     }
+
+
     @GetMapping("/date")
     public String getDatePage(@RequestParam(value = "date", defaultValue = "today", required=false) String date, Model model) {
         if("today".equals(date)){
@@ -42,10 +55,12 @@ public class InboxController {
             LocalDate localDate = LocalDate.now();
             date = dtf.format(localDate);
         }
-        List<Task> tasks = FilterHandler.filterByDate(TaskListDao.getTaskList(),date);
+        List<Task> allTasks = TaskListDao.getTaskList();
+        List<Task> tasks = FilterHandler.filterByDate(allTasks,date);
         tasks = FilterHandler.getIncompleted(tasks);
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
         model.addAttribute("taskList", tasks);
+        model.addAttribute("projectList", getProjectList(allTasks));
         return "rootView";
     }
 
@@ -56,15 +71,28 @@ public class InboxController {
 
     @GetMapping("/completed")
     public String getCompleted(Model model) {
+        List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
-        model.addAttribute("taskList",FilterHandler.getCompleted(TaskListDao.getTaskList()));
+        model.addAttribute("taskList",FilterHandler.getCompleted(allTasks));
+        model.addAttribute("projectList", getProjectList(allTasks));
         return "rootView";
     }
 
     @GetMapping("/incomplete")
     public String getIncompleted(Model model) {
+        List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
-        model.addAttribute("taskList",FilterHandler.getIncompletedTillDate(TaskListDao.getTaskList()));
+        model.addAttribute("taskList",FilterHandler.getIncompletedTillDate(allTasks));
+        model.addAttribute("projectList", getProjectList(allTasks));
+        return "rootView";
+    }
+
+    @GetMapping("/project")
+    public String getProject(@RequestParam(value = "project", defaultValue = "", required=false) String project, Model model) {
+        List<Task> allTasks = TaskListDao.getTaskList();
+        model.addAttribute("taskCount", TaskListDao.getTaskCount());
+        model.addAttribute("taskList",FilterHandler.getTasksForProject(allTasks, project));
+        model.addAttribute("projectList", getProjectList(allTasks));
         return "rootView";
     }
 

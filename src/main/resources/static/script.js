@@ -8,12 +8,23 @@ if(tasks&&tasks.length!==0) {
 } else {
     addTaskRow();
 }
+$("#date-navbar").datepicker();
 
 $('.btn-primary').on("click", addTaskRow);
 function addTaskRow() {
 	$('#task').tmpl([{id:totalTask+1}]).appendTo('#task_list');
 	++totalTask;
-	$( "input[name^='date']" ).datepicker();
+	$( "#task_list").find("input[name^='date']").last().datepicker();
+    $( "#task_list").find("input[name^='project']" ).last().bind("blur",addProjectToSuggestions);
+	$( "#task_list").find("input[name^='project']" ).last().typeahead({
+      hint: true,
+      highlight: false,
+      minLength: 0
+    },
+    {
+      name: 'projectList',
+      source: substringMatcher(projectList)
+    });
 };
 removedTaskIds =[];
  $(document).on('click', '.glyphicon-remove', function () {
@@ -46,11 +57,51 @@ $(document).on('change',(":checkbox"), function() {
         $(this).val("false");
     }
 });
-$( "input[name^='date']" ).typeahead({
-  minLength: 3,
-  highlight: true
+
+
+function substringMatcher (strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+
+    cb(matches);
+  };
+};
+
+
+$( "input[name^='project']" ).typeahead({
+  hint: true,
+  highlight: false,
+  minLength: 0
 },
 {
-  name: ['hello'],
-  source: mySource
+  name: 'projectList',
+  source: substringMatcher(projectList)
 });
+
+$( "input[name^='project']" ).bind("blur",addProjectToSuggestions);
+function addProjectToSuggestions(){
+    var value = $(this).val();
+    if((value)&&!($.inArray(value, projectList) !== -1)){
+        projectList.push($(this).val());
+        addProjectToList("",value);
+    }
+}
+$.each(projectList,addProjectToList);
+function addProjectToList(key, value) {
+   var input = "<li><a href=/project?project="+escape(value)+">"+value+"</a></li>"
+   $("#project-dropdown").append(input);
+}

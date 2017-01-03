@@ -43,4 +43,8 @@ public class FilterHandler {
         return (curr.compareTo(task) >= 0);
 
     }
+
+    public static List<Task> getTasksForProject(List<Task> taskList, String project) {
+        return taskList.stream().filter((task -> ((task.getProject().trim()).equalsIgnoreCase(project)))).collect(Collectors.toList());
+    }
 }

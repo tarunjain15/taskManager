@@ -29,16 +29,26 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="/homepage">Home</a>
-                        <a class="navbar-brand" href="/inbox">Inbox</a>
-                        <a class="navbar-brand" href="/listall">All</a>
-                        <a class="navbar-brand" href="/date">Today</a>
-                        <a class="navbar-brand" href="/completed">Completed</a>
-                        <a class="navbar-brand" href="/incomplete">Incompleted</a>
-                    </div>
+                    <a class="navbar-brand" href="/homepage">Home</a>
+                    <a class="navbar-brand" href="/inbox">Inbox</a>
+                    <a class="navbar-brand" href="/listall">All</a>
+                    <a class="navbar-brand" href="/date">Today</a>
+                    <a class="navbar-brand" href="/completed">Completed</a>
+                    <a class="navbar-brand" href="/incomplete">Incompleted</a>
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project <span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="project-dropdown">
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" id="goto-date" method="get" action="/date">
+                        <div class="form-group">
+                            <input id="date-navbar" type="text" class="form-control" placeholder="Select Date:" name="date" onchange="this.form.submit()" />
+                        </div>
+                    </form>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </nav>
         <div class="panel panel-default">
             <!-- Default panel contents -->
