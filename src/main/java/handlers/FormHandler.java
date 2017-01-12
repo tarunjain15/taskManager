@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  */
 public class FormHandler {
     private static final String TASK_COUNT_ATTR = "taskCount";
+    private static final String PROJECT_COUNT_ATTR = "projectCount";
     private static final String DELETED_TASKS = "removedTasks";
     public static String getTaskCountAndDelete(MultiValueMap<String,String> form) {
         String taskCount = form.get(TASK_COUNT_ATTR).get(0);
@@ -43,7 +44,7 @@ public class FormHandler {
                     getFormElement(form,"date",key),
                     getFormElement(form,"excuse",key),
                     Boolean.parseBoolean(getFormElement(form,"done",key)),
-                    getFormElement(form,"project",key)
+                    getFormElement(form,"Project",key)
             );
             taskList.add(task);
         }
@@ -55,5 +56,11 @@ public class FormHandler {
             return "";
         }
         return values.get(0);
+    }
+
+    public static String getProjectCountAndDelete(MultiValueMap<String, String> form) {
+        String projectCount = form.get(PROJECT_COUNT_ATTR).get(0);
+        form.remove(PROJECT_COUNT_ATTR);
+        return projectCount;
     }
 }

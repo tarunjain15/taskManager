@@ -1,3 +1,15 @@
+var projectMap = {};
+$.each(projectList, function(key, project) {
+    projectMap[project.id] = project.name;
+});
+$.each(tasks, function(key, task) {
+    task.projectId = projectMap[task.projectId];
+});
+var projectNames = [];
+$.each(projectList, function(key, project){
+    projectNames.push(project.name);
+});
+var newProjectList = [];
 if(tasks&&tasks.length!==0) {
     $('#task').tmpl(tasks).appendTo('#task_list');
     $.each($(":checkbox"),function(key, checkbox) {
@@ -23,7 +35,7 @@ function addTaskRow() {
     },
     {
       name: 'projectList',
-      source: substringMatcher(projectList)
+      source: substringMatcher(projectNames)
     });
 };
 removedTaskIds =[];
@@ -42,6 +54,9 @@ removedTaskIds =[];
     var input2 = $("<input>")
                    .attr("type", "hidden")
                    .attr("name", "removedTasks").val(removedTaskIds);
+    var input2 = $("<input>")
+                       .attr("type", "hidden")
+                       .attr("name", "projectCount").val(totalProject);
     $('#task-form').append($(input1)).append($(input2));
 });
 
@@ -89,19 +104,22 @@ $( "input[name^='project']" ).typeahead({
 },
 {
   name: 'projectList',
-  source: substringMatcher(projectList)
+  source: substringMatcher(projectNames)
 });
 
 $( "input[name^='project']" ).bind("blur",addProjectToSuggestions);
 function addProjectToSuggestions(){
     var value = $(this).val();
-    if((value)&&!($.inArray(value, projectList) !== -1)){
-        projectList.push($(this).val());
-        addProjectToList("",value);
+    if((value)&&!($.inArray(value, projectNames) !== -1)){
+        var newProject = {"id": totalProject, "name": value};
+        projectList.push(newProject);
+        projectMap[totalProject] = value;
+        addProjectToNavList("",newProject);
+        totalProject=totalProject+1;
     }
 }
-$.each(projectList,addProjectToList);
-function addProjectToList(key, value) {
-   var input = "<li><a href=/project?project="+escape(value)+">"+value+"</a></li>"
+$.each(projectList,addProjectToNavList);
+function addProjectToNavList(key, value) {
+   var input = "<li><a href=/project?project="+value.id+">"+value.name+"</a></li>"
    $("#project-dropdown").append(input);
 }

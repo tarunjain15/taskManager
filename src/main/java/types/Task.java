@@ -52,19 +52,19 @@ public class Task {
         this.done = done;
     }
 
-    public String getProject() {
-        return project;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setProjectId(String project) {
+        this.projectId = project;
     }
 
     private String time;
     private String date;
     private String excuse;
     private boolean done;
-    private String project;
+    private String projectId;
 
     public Task(String id, String desc, String time, String date, String excuse, boolean done, String project) {
         this.id = id;
@@ -73,7 +73,7 @@ public class Task {
         this.date = date;
         this.excuse = excuse;
         this.done = done;
-        this.project = project;
+        this.projectId = project;
     }
 }
 

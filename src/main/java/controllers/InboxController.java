@@ -29,13 +29,9 @@ public class InboxController {
         List<Task> tasks = FilterHandler.filterByDate(allTasks,"");
         tasks = FilterHandler.getIncompleted(tasks);
         model.addAttribute("taskList",tasks);
-        model.addAttribute("projectList", getProjectList(allTasks));
+        model.addAttribute("projectList", TaskListDao.getProjectList());
+        model.addAttribute("projectCount", TaskListDao.getProjectCount());
         return "rootView";
-    }
-
-    private List<String> getProjectList(List<Task> tasks) {
-        List<String> projects = tasks.stream().map(r->r.getProject()).filter(r-> !StringUtils.isEmpty(r)).distinct().collect(Collectors.toList());
-        return projects;
     }
 
     @GetMapping("/listall")
@@ -43,7 +39,8 @@ public class InboxController {
         List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
         model.addAttribute("taskList", allTasks);
-        model.addAttribute("projectList", getProjectList(allTasks));
+        model.addAttribute("projectList", TaskListDao.getProjectList());
+        model.addAttribute("projectCount", TaskListDao.getProjectCount());
         return "rootView";
     }
 
@@ -60,7 +57,8 @@ public class InboxController {
         tasks = FilterHandler.getIncompleted(tasks);
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
         model.addAttribute("taskList", tasks);
-        model.addAttribute("projectList", getProjectList(allTasks));
+        model.addAttribute("projectList", TaskListDao.getProjectList());
+        model.addAttribute("projectCount", TaskListDao.getProjectCount());
         return "rootView";
     }
 
@@ -74,7 +72,8 @@ public class InboxController {
         List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
         model.addAttribute("taskList",FilterHandler.getCompleted(allTasks));
-        model.addAttribute("projectList", getProjectList(allTasks));
+        model.addAttribute("projectList", TaskListDao.getProjectList());
+        model.addAttribute("projectCount", TaskListDao.getProjectCount());
         return "rootView";
     }
 
@@ -83,7 +82,8 @@ public class InboxController {
         List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
         model.addAttribute("taskList",FilterHandler.getIncompletedTillDate(allTasks));
-        model.addAttribute("projectList", getProjectList(allTasks));
+        model.addAttribute("projectList", TaskListDao.getProjectList());
+        model.addAttribute("projectCount", TaskListDao.getProjectCount());
         return "rootView";
     }
 
@@ -92,14 +92,16 @@ public class InboxController {
         List<Task> allTasks = TaskListDao.getTaskList();
         model.addAttribute("taskCount", TaskListDao.getTaskCount());
         model.addAttribute("taskList",FilterHandler.getTasksForProject(allTasks, project));
-        model.addAttribute("projectList", getProjectList(allTasks));
+        model.addAttribute("projectList", TaskListDao.getProjectList());
+        model.addAttribute("projectCount", TaskListDao.getProjectCount());
         return "rootView";
     }
 
-    @RequestMapping(value="/inbox", method= RequestMethod.POST,
+    @RequestMapping(value="/save", method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String submitTasks(@RequestBody MultiValueMap<String,String> form, HttpServletRequest request, Model model) {
         String taskCount = FormHandler.getTaskCountAndDelete(form);
+        String projectCount = FormHandler.getProjectCountAndDelete(form);
         List<String> deletedTask = FormHandler.getDeletedTasksAndDelete(form);
         List<Task> oldTaskList = TaskListDao.getTaskList();
         List<Task> formTaskList = FormHandler.getUpdatedTaskList(form, deletedTask);
@@ -108,6 +110,7 @@ public class InboxController {
         TaskListDao.writeTaskList(taskListJson);
 
         TaskListDao.writeTaskCount(taskCount);
+        TaskListDao.writeProjectCount(projectCount);
         String referer = request.getHeader("Referer");
 
         return "redirect:" + referer;
